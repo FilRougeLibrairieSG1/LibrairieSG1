@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import librairieenligne2.Commande;
 import librairieenligne2.Editeur;
 
 /**
@@ -24,20 +25,21 @@ import librairieenligne2.Editeur;
     
     public class CRUDCommande extends Parameter {
 
-    private Editeur newEditeur;
-    private Vector<Editeur> listEditeurs;
+    private Commande newCommande;
+    private Vector<Commande> listCommandes;
 
     public CRUDCommande() {
-        this.newEditeur = new Editeur();
-        this.listEditeurs = new Vector<>();
+        this.newCommande = new Commande();
+        this.listCommandes = new Vector<>();
     }
 
     public void CreateCommande() {
-        String query = "INSERT INTO Editeur (SiretEditeur, nomEditeur, logoEditeur) values (?,?,?)";
+        
+        String query = "INSERT INTO Commande (SiretEditeur, nomEditeur, logoEditeur) values (?,?,?)";
         try (Connection cnt = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getMdp());
                 PreparedStatement pstmt = cnt.prepareStatement(query);) {
 
-            pstmt.setString(1, this.getNewEditeur().getSiretEditeur());
+            pstmt.setString(1, this.getNewCommande().getNewClient().getNumClient());
             pstmt.setString(2, this.getNewEditeur().getNomEditeur());
             pstmt.setString(3, this.getNewEditeur().getLogoEditeur().getNomImage());
             try {
@@ -52,15 +54,19 @@ import librairieenligne2.Editeur;
         }
     }
     
-    public void updateEditeur(String idEditeur){
-      String query = "UPDATE Editeur SET SiretEditeur= '"+this.getNewEditeur().getSiretEditeur()+"', nomEditeur = '"+this.getNewEditeur().getNomEditeur()+"', logoEditeur = '"+this.getNewEditeur().getLogoEditeur().getNomImage()+"' where SiretEditeur='"+idEditeur+"'";
+   public void updateAuteur(String idAuteur){
+      String query = "UPDATE Auteur SET nomAuteur= ?, prenomAuteur= ?, photoAuteur=?, nationaliteAuteur=?, dateNaissanceAuteur=?, dateDecesAuteur=? where idAuteur='"+idAuteur+"'";
        try(Connection cnt = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getMdp());
             PreparedStatement pstmt = cnt.prepareStatement(query);
-            
                 ){
            
          try {
-             
+             pstmt.setString(1, this.getNewAuteur().getNomAuteur());
+             pstmt.setString(2, this.getNewAuteur().getPrenomAuteur());
+             pstmt.setString(3, this.getNewAuteur().getImageAuteur().getNomImage());
+             pstmt.setString(4, this.getNewAuteur().getNationalitéAuteur());
+             pstmt.setDate(5, this.getNewAuteur().getDateNaissanceAuteur());
+             pstmt.setDate(6, this.getNewAuteur().getDateDecesAuteur());
 
             pstmt.executeUpdate();
            
@@ -156,27 +162,24 @@ import librairieenligne2.Editeur;
         }
         return this.newEditeur;
     }
+
+    public Commande getNewCommande() {
+        return newCommande;
+    }
+
+    public void setNewCommande(Commande newCommande) {
+        this.newCommande = newCommande;
+    }
+
+    public Vector<Commande> getListCommandes() {
+        return listCommandes;
+    }
+
+    public void setListCommandes(Vector<Commande> listCommandes) {
+        this.listCommandes = listCommandes;
+    }
     
-        public Editeur getNewEditeur() {
-        return newEditeur;
-    }
 
-    public void setNewEditeur(Editeur newEditeur) {
-        this.newEditeur = newEditeur;
-    }
-
-    public Vector<Editeur> getListEditeurs() {
-        return listEditeurs;
-    }
-
-    public void setListEditeurs(Vector<Editeur> listEditeurs) {
-        this.listEditeurs = listEditeurs;
-    }
-
-    @Override
-    public String toString() {
-        return "CrudEditeur{" + "newEditeur=" + newEditeur + ", listEditeurs=" + listEditeurs + '}';
-    }
 
 }
 

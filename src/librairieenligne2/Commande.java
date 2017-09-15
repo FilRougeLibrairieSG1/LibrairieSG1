@@ -5,7 +5,8 @@
  */
 package librairieenligne2;
 
-import java.util.Date;
+//import java.util.Date;
+import java.sql.Date;
 import java.util.Vector;
 
 /**
@@ -20,7 +21,6 @@ public class Commande {
     private String adresseIPCommande;
     private Date dateExpeditionCommande;
     private String refExpeditionCommande;
-    
     private Vector <LigneCommande> newLigneCommande;
     private Client newClient;
     private Statut newStatut;
@@ -42,6 +42,9 @@ public class Commande {
         this.newStatut = newStatut;
         this.newExpediteur = newExpediteur;
         this.newAdresse = newAdresse;
+    }
+
+    public Commande() {
     }
 
     

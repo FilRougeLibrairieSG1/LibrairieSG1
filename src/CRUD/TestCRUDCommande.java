@@ -47,6 +47,7 @@ public class TestCRUDCommande {
 
             ResultSet rs = pstmt.executeQuery();
             ResultSet rs2 = pstmt2.executeQuery();
+            
 
             while (rs.next() && (rs2.next())) {
                 System.out.println("\nNuméro de Commande : " + rs.getString("numBonCommande"));
